@@ -513,6 +513,11 @@ void *BarPlayerThread (void *data) {
 
 	/* If the song was played all the way through tag it. */
 	if (wRet == WAITRESS_RET_OK) {
+		int rc = fflush(player->fly.audio_file);
+		if (rc) {
+			BarUiMsg (player->settings, MSG_ERR, "Failed to flush audio file: %s\n",
+				player->fly.audio_file_path);
+        	}
 		BarFlyTag(&player->fly, player->settings);
 	}
 
